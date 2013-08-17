@@ -2,4 +2,24 @@
 # The logic to start up your application should be put in this
 # script. The application will work only if it binds to
 # $OPENSHIFT_DIY_IP:8080
-nohup $OPENSHIFT_REPO_DIR/diy/testrubyserver.rb $OPENSHIFT_DIY_IP $OPENSHIFT_REPO_DIR/diy > $OPENSHIFT_DIY_DIR/logs/server.log 2>&1 &
+set -x
+cd $OPENSHIFT_DATA_DIR
+
+if [ -d $OPENSHIFT_DATA_DIR/magnolia-5.0.2 ]
+then 
+	cd magnolia-5.0.2/apache-tomcat-7.0.40/bin
+	./magnolia_control.sh start
+	exit 0
+else
+	wget http://nexus.magnolia-cms.com/content/repositories/magnolia.public.releases/info/magnolia/magnolia-tomcat-bundle/5.0.2/magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
+	unzip magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
+	rm magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
+	cd magnolia-5.0.2/apache-tomcat-7.0.40/conf
+	ip=$OPENSHIFT_DIY_IP
+	sed -i "s#<Server\s*port=\(\"8005\"\)\(.*\)#<Server address=\"$ip\" port=\"18005\" \2#g" server.xml
+	sed -i "s#<Connector\s*port=\(\"8080\"\)\(.*\)#<Connector address=\"$ip\" port=\"8080\" \2#g;" server.xml
+	sed -i "s#<Connector\s*port=\(\"8009\"\)\(.*\)#<Connector address=\"$ip\" port=\"18009\" \2#g" server.xml
+	sed -i "s#redirectPort=\"8443\"#redirectPort=\"18443\"#g" server.xml
+	cd ../bin
+	./magnolia_control.sh start
+fi
