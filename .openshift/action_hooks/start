@@ -20,6 +20,9 @@ else
 	sed -i "s#<Connector\s*port=\(\"8080\"\)\(.*\)#<Connector address=\"$ip\" port=\"8080\" \2#g;" server.xml
 	sed -i "s#<Connector\s*port=\(\"8009\"\)\(.*\)#<Connector address=\"$ip\" port=\"18009\" \2#g" server.xml
 	sed -i "s#redirectPort=\"8443\"#redirectPort=\"18443\"#g" server.xml
-	cd ../bin
+	cd ..
+	rm -rf logs
+    ln -s $OPENSHIFT_DIY_LOG_DIR logs
+	cd bin
 	./magnolia_control.sh start
 fi
