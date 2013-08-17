@@ -23,6 +23,7 @@ $ rhc app stop --app magnoliacms
 $ cd magnoliacms
 $ git rm diy/index.html
 $ git rm diy/testrubyserver.rb
+$ git commit -am "deleted default test ruby server"
 ```
 
 6. Pull the source code from github
