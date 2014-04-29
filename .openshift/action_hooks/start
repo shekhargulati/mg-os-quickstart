@@ -5,9 +5,9 @@
 set -x
 cd $OPENSHIFT_DATA_DIR
 
-if [ -d $OPENSHIFT_DATA_DIR/magnolia ]
+if [ -d $OPENSHIFT_DATA_DIR/magnolia-5.2.4 ]
 then 
-	cd magnolia/apache-tomcat-7.0.47/bin
+	cd magnolia-5.2.4/apache-tomcat-7.0.47/bin
 	./magnolia_control.sh start
 	exit 0
 else
