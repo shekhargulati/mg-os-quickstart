@@ -5,16 +5,17 @@
 set -x
 cd $OPENSHIFT_DATA_DIR
 
-if [ -d $OPENSHIFT_DATA_DIR/magnolia-5.0.2 ]
+if [ -d $OPENSHIFT_DATA_DIR/magnolia ]
 then 
-	cd magnolia-5.0.2/apache-tomcat-7.0.40/bin
+	cd magnolia/apache-tomcat-7.0.47/bin
 	./magnolia_control.sh start
 	exit 0
 else
-	wget http://nexus.magnolia-cms.com/content/repositories/magnolia.public.releases/info/magnolia/magnolia-tomcat-bundle/5.0.2/magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
-	unzip magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
-	rm magnolia-tomcat-bundle-5.0.2-tomcat-bundle.zip
-	cd magnolia-5.0.2/apache-tomcat-7.0.40/conf
+	wget http://downloads.sourceforge.net/project/magnolia/magnolia/Magnolia%20CE%205.2.4/magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fmagnolia%2F&ts=1398758621&use_mirror=kaz
+	mv magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip* magnolia.zip
+	unzip magnolia.zip
+	rm magnolia.zip
+	cd magnolia-5.2.4/apache-tomcat-7.0.47/conf
 	ip=$OPENSHIFT_DIY_IP
 	sed -i "s#<Server\s*port=\(\"8005\"\)\(.*\)#<Server address=\"$ip\" port=\"18005\" \2#g" server.xml
 	sed -i "s#<Connector\s*port=\(\"8080\"\)\(.*\)#<Connector address=\"$ip\" port=\"8080\" \2#g;" server.xml
@@ -22,7 +23,7 @@ else
 	sed -i "s#redirectPort=\"8443\"#redirectPort=\"18443\"#g" server.xml
 	cd ..
 	rm -rf logs
-    ln -s $OPENSHIFT_DIY_LOG_DIR logs
+    ln -s $OPENSHIFT_LOG_DIR logs
 	cd bin
 	./magnolia_control.sh start
 fi

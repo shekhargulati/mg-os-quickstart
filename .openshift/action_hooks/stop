@@ -1,2 +1,2 @@
 #!/bin/bash
-$OPENSHIFT_DATA_DIR/magnolia-5.0.2/apache-tomcat-7.0.40/bin/magnolia_control.sh stop
+$OPENSHIFT_DATA_DIR/magnolia-5.2.4/apache-tomcat-7.0.47/bin/magnolia_control.sh stop
