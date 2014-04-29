@@ -11,10 +11,9 @@ then
 	./magnolia_control.sh start
 	exit 0
 else
-	wget http://downloads.sourceforge.net/project/magnolia/magnolia/Magnolia%20CE%205.2.4/magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fmagnolia%2F&ts=1398758621&use_mirror=kaz
-	mv magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip* magnolia.zip
-	unzip magnolia.zip
-	rm magnolia.zip
+	wget http://downloads.sourceforge.net/project/magnolia/magnolia/Magnolia%20CE%205.2.4/magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip
+	unzip magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip
+	rm magnolia-tomcat-bundle-5.2.4-tomcat-bundle.zip
 	cd magnolia-5.2.4/apache-tomcat-7.0.47/conf
 	ip=$OPENSHIFT_DIY_IP
 	sed -i "s#<Server\s*port=\(\"8005\"\)\(.*\)#<Server address=\"$ip\" port=\"18005\" \2#g" server.xml
